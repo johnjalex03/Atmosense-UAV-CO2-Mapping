@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ROS 2 / colcon
+build/
+install/
+log/
+
+# Data — keep large recordings out of git
+*.bag
+*.db3
+*.mcap
+data/raw/
+
+# Source videos — the README embeds the generated .gif versions instead.
+# These stay on disk locally but are kept out of the repo: dashboard.mov (67MB) and
+# greenhouse_flight.mp4 (53MB) both exceed GitHub's 50MB warning threshold, and once
+# committed they bloat every clone forever. Host full-quality video externally
+# (issue-upload or YouTube) and link it from the README.
+assets/demos/*.mov
+assets/demos/*.mp4
+# ...except the CAD exploded-view source, which is small enough to keep.
+!assets/demos/Z2_exploded_view.mov
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
