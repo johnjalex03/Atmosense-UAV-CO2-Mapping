@@ -23,8 +23,9 @@ data/raw/
 # (issue-upload or YouTube) and link it from the README.
 assets/demos/*.mov
 assets/demos/*.mp4
-# ...except the CAD exploded-view source, which is small enough to keep.
+# ...except these, which are small enough to keep and are linked from the README.
 !assets/demos/Z2_exploded_view.mov
+!assets/demos/greenhouse_flight_web.mp4
 
 # OS / editor
 .DS_Store

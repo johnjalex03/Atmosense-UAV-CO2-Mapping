@@ -9,9 +9,11 @@ Delete this file once you're done. Everything below is marked in `README.md` as 
       **8675**; `Telemetry.png` says **8765**. Foxglove Bridge's default is 8765, so the node-graph
       diagram likely has a digit transposition. Worth fixing — it's the kind of detail a sharp reviewer
       spots. The README deliberately cites no port number.
-- [ ] **`SNU_flight.png` is only 195×347 px.** It's the weakest asset in the README and will look soft
-      next to the NTU photo. Replace with a higher-resolution shot from Seoul if you have one. It now
-      sits in a 3-column thumbnail row, which hides the problem — but only just.
+- [ ] **Confirm `flight.webp` animates on GitHub.** It is an animated WebP, which autoplays like a
+      GIF but keeps far more detail per byte. If it renders as a still after you push, rebuild it as
+      a GIF with the recipe in §4 and accept the size or resolution hit. Everything else animated in
+      the README is a GIF and is not at risk.
+- [ ] Delete `assets/demos/NTU_flight.jpg`, it is stale and unreferenced.
 - [ ] **`Z2` vs `Z1` naming.** The enclosure source is `Z2_exploded_view.mov` while the PCB silkscreen
       reads `Z1 Sensor HAT`. The README treats Z2 as the enclosure revision and Z1 as the board. If
       that's wrong, fix the Hardware section — it's the kind of inconsistency that reads as sloppiness.
@@ -46,15 +48,27 @@ nothing. The four GIFs were generated from your source videos:
 
 | GIF | From | Notes |
 |:--|:--|:--|
-| `flight.gif` | `greenhouse_flight.mp4` | 10s from 0:02, 240px wide, 10fps — sized for the 3-col thumbnail |
 | `dashboard.gif` | `dashboard.mov` | 14s from 0:01, 720px wide, 10fps |
+| `gazebo_sim.gif` | `GAZEBO.mov` | 13s from 0:49, cropped to the RViz window, 1100px, 10fps |
+| `flight.webp` | `greenhouse_flight.mp4` | 12s from 0:02, 540x960, 12fps, lossy q70 (see below) |
 | `concentration.gif` | `07_concentration_3d.mp4` | full 60s sped 3× |
 | `uncertainty.gif` | `07_uncertainty_3d.mp4` | full 60s sped 3× |
 | `exploded.gif` | `Z2_exploded_view.mov` | cropped to subject, slowed 2.5×, 1.6s hold on the final frame |
 
 The exploded-view source is 5120×2146 with the subject occupying only the middle ~45%, so it's cropped
-to `2304:2146:1408:0` before scaling. The original is 1.04s — too fast to read — hence the slowdown
-and the held final frame.
+to `2304:2146:1408:0` before scaling. The original is 1.04s, too fast to read, hence the slowdown and
+the held final frame.
+
+**The flight clip is WebP, not GIF, because handheld greenhouse footage is GIF's worst case.** At 480px
+wide the GIF was 24 MB. The same clip as lossy animated WebP is 7 MB at higher resolution with no
+banding. To rebuild it:
+
+```bash
+ffmpeg -ss 2 -t 12 -i assets/demos/greenhouse_flight.mp4 -vf "fps=12,scale=540:-1:flags=lanczos" -f image2 /tmp/wf/f%04d.png && img2webp -loop 0 -lossy -q 70 -m 4 -d 83 /tmp/wf/f*.png -o assets/demos/flight.webp
+```
+
+Screen recordings compress well as GIF because they are mostly flat colour, which is why the dashboard,
+Gazebo, and field GIFs stay small. Camera footage does not.
 
 To regenerate any of them with different trims:
 
